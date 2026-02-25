@@ -1,4 +1,4 @@
-The 7458 is a chip with four AND gates and two OR gates. 
+The 7458 is a chip with four AND gates and two OR gates. Refer to the image "7458.png" for the circuit diagram.
 Create a module with the same functionality as the 7458 chip. It has 10 inputs and 2 outputs. You may choose to use an assign statement to drive each of the output wires, or you may choose to declare (four) wires for use as intermediate signals, where each internal wire is driven by the output of one of the AND gates.
 
 module top_module ( 
@@ -16,3 +16,4 @@ module top_module (
     assign p2y=w3|w4;
 
 endmodule
+

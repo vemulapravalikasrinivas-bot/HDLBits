@@ -1,4 +1,4 @@
-Implement the following circuit. Create two intermediate wires (named anything you want) to connect the AND and OR gates together. Note that the wire that feeds the NOT gate is really wire out, so you do not necessarily need to declare a third wire here. Notice how wires are driven by exactly one source (output of a gate), but can feed multiple inputs.
+Implement the following circuit. Create two intermediate wires (named anything you want) to connect the AND and OR gates together. Note that the wire that feeds the NOT gate is really wire out, so you do not necessarily need to declare a third wire here. Notice how wires are driven by exactly one source (output of a gate), but can feed multiple inputs. Refer to the png file named "wiredecl2" for the circuit diagram.
 
 
 module top_module (
@@ -17,3 +17,4 @@ module top_module (
 	assign out_n = ~out;	// NOT gate
 	
 endmodule
+

@@ -1,0 +1,39 @@
+Consider a finite state machine with inputs s and w. Assume that the FSM begins in a reset state called A, as depicted below. The FSM remains in state A as long as s = 0, and it moves to state B when s = 1. Once in state B the FSM examines the value of the input w in the next three clock cycles. If w = 1 in exactly two of these clock cycles, then the FSM has to set an output z to 1 in the following clock cycle. Otherwise z has to be 0. The FSM continues checking w for the next three clock cycles, and so on. 
+
+
+module top_module (
+    input clk,
+    input reset,   // Synchronous reset
+    input s,
+    input w,
+    output z
+);
+    reg state,ns;
+    parameter A=0, B=1;
+    reg [1:0] clk3, clk1;
+    
+    always @(*) begin
+        case(state)
+            A:ns=s?B:A;
+            B:ns=B;
+            default:ns=B;
+        endcase
+    end
+    
+    always @(posedge clk) begin
+        if(reset)
+            state<=A;
+        else
+            state<=ns;
+    end
+    
+    always @(posedge clk) begin
+        if(reset) begin clk3<=0; clk1<=0; end
+        else if(state==A) begin clk3<=0; clk1<=0; end
+        else if(clk3==3)  begin clk3<=1; clk1<=w; end
+        else  begin clk3<=clk3+1; clk1<=clk1+w; end
+    end
+    
+    assign z=(clk3==3)&&(clk1==2);
+    
+endmodule

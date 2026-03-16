@@ -1,0 +1,37 @@
+Consider the state diagram shown below. (refer to the image "Q2a.png");
+
+Write complete Verilog code that represents this FSM. Use separate always blocks for the state table and the state flip-flops, as done in lectures. Describe the FSM output, which is called z, using either continuous assignment statement(s) or an always block (at your discretion). Assign any state codes that you wish to use.
+
+
+module top_module (
+    input clk,
+    input reset,   // Synchronous active-high reset
+    input w,
+    output z
+);
+     reg [2:0] state, ns;
+    parameter A=0, B=1, C=2, D=3, E=4, F=5;
+    
+    always @(*) begin
+        case(state) 
+            A:ns=w?B:A;
+            B:ns=w?C:D;
+            C:ns=w?E:D;
+            D:ns=w?F:A;
+            E:ns=w?E:D;
+            F:ns=w?C:D;
+            default: ns=A;
+        endcase         
+    end
+    
+    always @(posedge clk) begin
+        if(reset)
+            state<=A;
+        else
+            state<=ns;
+        
+    end
+    assign z=(state==E || state==F);
+
+
+endmodule

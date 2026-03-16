@@ -1,0 +1,40 @@
+
+
+You are to design a one-input one-output serial 2's complementer Moore state machine. The input (x) is a series of bits (one per clock cycle) beginning with the least-significant bit of the number, and the output (Z) is the 2's complement of the input. The machine will accept input numbers of arbitrary length. The circuit requires an asynchronous reset. The conversion begins when Reset is released and stops when Reset is asserted.
+
+
+module top_module (
+    input clk,
+    input areset,
+    input x,
+    output reg z
+); 
+    parameter s0=0, s1=1,s2=2;
+    reg [1:0] state,ns;
+    
+      
+    
+    always @(*) begin
+        case (state)
+            s0:ns=x?s1:s0;
+            s1:ns=s2;
+            s2:ns=s2;
+            default:ns=s0;
+        endcase
+    end
+    
+    always @(posedge clk or posedge areset) begin
+        if(areset) begin
+            state<=s0;
+            z<=0;
+        end
+        else begin
+            state<=ns;
+            if(ns==s2)
+                z<=~x;
+            else 
+                z<=x;
+        end
+    end
+
+endmodule

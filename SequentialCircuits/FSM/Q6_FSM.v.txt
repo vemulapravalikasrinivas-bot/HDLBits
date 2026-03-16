@@ -1,0 +1,34 @@
+Consider the state machine shown below, which has one input w and one output z.
+(Refer to the image "Q6c_FSM_oneHotEncoding.png")
+
+
+module top_module (
+    input clk,
+    input reset,     // synchronous reset
+    input w,
+    output z);
+	
+    reg [2:0] state, ns;
+    parameter A=0, B=1, C=2, D=3, E=4, F=5;
+    
+    always @(*) begin
+        case(state) 
+            A:ns=w?A:B;
+            B:ns=w?D:C;
+            C:ns=w?D:E;
+            D:ns=w?A:F;
+            E:ns=w?D:E;
+            F:ns=w?D:C;
+            default: ns=A;
+        endcase         
+    end
+    
+    always @(posedge clk) begin
+        if(reset)
+            state<=A;
+        else
+            state<=ns;
+        
+    end
+    assign z=(state==E || state==F);
+endmodule

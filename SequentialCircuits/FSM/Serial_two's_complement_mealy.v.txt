@@ -1,0 +1,33 @@
+The following diagram is a Mealy machine implementation of the 2's complementer. Implement using one-hot encoding.
+(Refer to the image "Serial_two's_complement.png")
+
+module top_module (
+    input clk,
+    input areset,
+    input x,
+    output reg z
+); 
+    parameter s0 = 0, s1 = 1;
+    reg state;
+
+    // Output logic (Moore machine)
+    always @(*) begin
+        case (state)
+            s0: z = x;
+            s1: z = ~x;
+        endcase
+    end
+
+    // State transition logic
+    always @(posedge clk or posedge areset) begin
+        if (areset)
+            state <= s0;
+        else begin
+            case (state)
+                s0: state <= x ? s1 : s0;
+                s1: state <= s1;
+            endcase
+        end
+    end
+
+endmodule
